@@ -21,15 +21,17 @@ jobs:
         run: python -m pip install --upgrade pip && pip install -r requirements.txt
       - name: Run delay-model sensitivity analysis
         run: python src/delay_model_sensitivity.py
+      - name: Run baseline diagnostic reconstruction
+        run: python src/baseline_diagnostic_simpy.py --seed 2026 --horizon-s 10
       - name: Run paper arithmetic audit
         run: python src/audit_paper_results.py
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
-      - name: Upload generated CSV and graph
+      - name: Upload generated CSVs and figures
         uses: actions/upload-artifact@v4
         with:
-          name: delay-model-results
+          name: reproducibility-results
           path: |
-            data/processed/table_iv_reproduced.csv
+            data/processed/*.csv
             data/processed/result_audit.txt
-            figures/delay_model_survival.png
+            figures/*.png
