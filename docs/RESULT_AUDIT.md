@@ -4,10 +4,20 @@
 
 The manuscript describes a 16-link route with per-hop delay in the range 50–150 μs. The minimum accumulated delay is 16 × 50 = 800 μs; the mean is 1,600 μs; the maximum is 2,400 μs; and the standard deviation is approximately 115.5 μs. Since 800 μs exceeds the reported 100 μs hard cutoff, a resource traversing all 16 hops cannot survive under the assumed delay model. The reported baseline expiration is consistent with those assumptions.
 
+## Table IV numerical cross-check
+
+The supplied Table IV values mostly follow the expected CDF for the sum of independent Uniform(50,150) μs variables. However, the published Monte Carlo values cannot be reproduced exactly from the manuscript alone because the original random seeds and calculation script were not supplied.
+
+For an independent theoretical cross-check with 600,000 total samples per hop count, selected supplied values differ from the exact CDF more than small rounding alone would explain:
+- 3 hops, 200 μs: supplied 0.02173; theoretical CDF ≈ 0.020833.
+- 12 hops, 1,000 μs: supplied 0.02164; theoretical CDF ≈ 0.022276.
+- 16 hops, 2,000 μs: supplied 0.99977; theoretical CDF ≈ 0.999827.
+These discrepancies do not by themselves prove the table is wrong; they do mean the exact random seed schedule, sampling convention, and aggregation/CI method should be checked against the original script before stating that the table has been independently reproduced. The included script generates a reproducible new run under the stated assumptions; its Monte Carlo values may differ from the supplied values.
+
 ## Reproducible versus non-reproducible evidence
 
-- Table IV and Fig. 6 can be reproduced from the independent Uniform(50,150) μs hop-delay model. Small Monte Carlo differences are expected when the random seed schedule changes.
-- The paper reports a separate SeQUeNCe baseline: 434,440 attempts, one generated resource, zero successful end-to-end links, one purged state, and 0.00% usable entanglement. The simulator source, topology/configuration, seeds, and raw event logs were not supplied; this repository records but does not independently reproduce that run.
+- Table IV / Fig. 6 delay-model analysis: the model is clear and independently implementable, but the exact reported Monte Carlo realization is not reproducible without its original seed schedule.
+- SeQUeNCe baseline: the paper reports 434,440 attempts, one generated resource, zero successful end-to-end links, one purged state, and 0.00% usable entanglement. The simulator source, topology/configuration, seeds, and raw event logs were not supplied; this repository records but does not independently reproduce that run.
 - A separate supplied candidate-results PDF includes Tables V and VI values. The manuscript's rendered tables are malformed/overlapping and source logs are unavailable. These candidates are preserved for traceability but marked unverified. The identical policy values and mostly identical ablation values should be checked against the actual source CSV and code before being claimed as experimental evidence.
 
 ## Manuscript inconsistencies to verify before release
