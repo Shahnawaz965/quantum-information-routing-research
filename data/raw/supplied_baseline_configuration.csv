@@ -1,0 +1,16 @@
+parameter,value,source_note
+topology,Line,Reported in supplied paper
+intermediate_routers,15,Reported in supplied paper
+end_to_end_links,16,Derived from Node A -> 15 routers -> Node B
+simulation_horizon_s,10,Reported in supplied paper
+link_length_km,10,Reported in supplied paper
+attenuation_db_per_km,0.2,Reported in supplied paper
+hop_delay_min_us,50,Reported in supplied paper
+hop_delay_max_us,150,Reported in supplied paper
+memory_cutoff_us,100,Reported baseline value; Table II appears inconsistent
+generation_trials_per_attempt,5,Reported in supplied paper
+qubit_attempts,434440,Reported diagnostic run
+generated_qubits,1,Reported diagnostic run
+successful_end_to_end_links,0,Reported diagnostic run
+purged_states,1,Reported diagnostic run
+usable_entanglement_rate_percent,0.00,Reported diagnostic run
