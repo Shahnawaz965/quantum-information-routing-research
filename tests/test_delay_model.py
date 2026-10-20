@@ -4,11 +4,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CSV_PATH = ROOT / "data" / "processed" / "table_iv_reproduced.csv"
+BASELINE_SUMMARY = ROOT / "data" / "processed" / "baseline_diagnostic_summary.csv"
 
 
 class DelayModelTests(unittest.TestCase):
     def test_sixteen_hop_minimum_delay_exceeds_baseline_cutoff(self):
-        # Under the stated delay support, every one of the 16 delays is >=50 us.
+        # Every modeled hop is at least 50 us, so the 16-hop minimum is 800 us.
         min_total_us = 16 * 50.0
         self.assertEqual(min_total_us, 800.0)
         self.assertGreater(min_total_us, 100.0)
@@ -45,12 +46,25 @@ class DelayModelTests(unittest.TestCase):
             int(row["cutoff_us"]): float(row["survival_probability_mean"])
             for row in rows if int(row["hops"]) == 16
         }
-        # Any cutoff below the 800 us minimum must have zero survival.
+        # Cutoffs below the 800 us minimum have zero survival.
         for cutoff in (100, 200, 500):
             self.assertEqual(sixteen[cutoff], 0.0)
-        # 3000 us exceeds the 2400 us maximum possible age.
+        # 3000 us exceeds the 2400 us maximum possible delay.
         self.assertEqual(sixteen[3000], 1.0)
-        # 1000 and 2000 us are not deterministic bounds; do not assert them.
+
+    def test_baseline_reconstruction_is_labelled_as_simpy(self):
+        self.assertTrue(
+            BASELINE_SUMMARY.exists(),
+            "Run src/baseline_diagnostic_simpy.py before the tests."
+        )
+        with BASELINE_SUMMARY.open(newline="", encoding="utf-8") as handle:
+            row = next(csv.DictReader(handle))
+        self.assertIn("SimPy", row["simulator"])
+        self.assertEqual(int(row["intermediate_routers"]), 15)
+        self.assertEqual(int(row["hops"]), 16)
+        self.assertEqual(float(row["memory_cutoff_us"]), 100.0)
+        self.assertGreater(int(row["qubit_attempts"]), 0)
+
 
 if __name__ == "__main__":
     unittest.main()
