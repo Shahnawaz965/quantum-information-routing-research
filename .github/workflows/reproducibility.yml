@@ -1,0 +1,33 @@
+name: Reproducibility checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  reproduce-delay-model:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && pip install -r requirements.txt
+      - name: Run delay-model sensitivity analysis
+        run: python src/delay_model_sensitivity.py
+      - name: Run paper arithmetic audit
+        run: python src/audit_paper_results.py
+      - name: Upload generated CSV and graph
+        uses: actions/upload-artifact@v4
+        with:
+          name: delay-model-results
+          path: |
+            data/processed/table_iv_reproduced.csv
+            data/processed/result_audit.txt
+            figures/delay_model_survival.png
