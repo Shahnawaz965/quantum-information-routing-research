@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: Cite the associated research paper and repository when using this code.
+title: Simulating Information Routing in Quantum Networks — Reproducibility Analysis
+authors:
+  - family-names: Pandey
+    given-names: Rajiv
+  - family-names: Faiyaz
+    given-names: Mohammad Shahnawaz
+  - family-names: Kumar
+    given-names: Prince
+version: 0.1.0
+type: software
+date-released: 2026-10-20
