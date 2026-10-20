@@ -12,7 +12,7 @@ cutoff_us = 100.0
 min_total = hop_count * min_hop_delay_us
 max_total = hop_count * max_hop_delay_us
 mean_total = hop_count * (min_hop_delay_us + max_hop_delay_us) / 2
-sd_total = ((hop_count * ((max_hop_delay_us - min_hop_delay_us) ** 2) / 12) ** 0.5)
+sd_total = (hop_count * ((max_hop_delay_us - min_hop_delay_us) ** 2) / 12) ** 0.5
 
 lines = [
     "RESULT AUDIT — Simulating Information Routing in Quantum Networks",
@@ -26,7 +26,7 @@ lines = [
     f"Memory cutoff: {cutoff_us:.1f} us",
     f"Conclusion: {'deterministic expiry' if min_total > cutoff_us else 'survival may be possible'}",
     "",
-    "SUPPLIED SEQUENC E DIAGNOSTIC BASELINE (recorded, not reproduced):",
+    "SUPPLIED SeQUeNCe DIAGNOSTIC BASELINE (recorded, not reproduced):",
     "Attempts=434440; generated=1; successful end-to-end links=0;",
     "purged=1; usable-entanglement rate=0.00%.",
     "",
